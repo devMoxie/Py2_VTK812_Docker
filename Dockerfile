@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
     gfortran \
     tar
 
-WORKDIR /3d_Py2_Docker
+WORKDIR /Py2_VTK812_Docker
 
 # Download and extract VTK source code
 RUN wget https://github.com/Kitware/VTK/archive/v8.1.2.tar.gz && \
@@ -22,7 +22,7 @@ RUN wget https://github.com/Kitware/VTK/archive/v8.1.2.tar.gz && \
     rm v8.1.2.tar.gz
 
 # Build VTK from source
-WORKDIR /3d_Py2_Docker/VTK-8.1.2/build
+WORKDIR /Py2_VTK812_Docker/VTK-8.1.2/build
 RUN cmake -DVTK_WRAP_PYTHON=ON -DPYTHON_EXECUTABLE=/usr/local/bin/python \
     -DBUILD_TESTING=OFF \
     ../ && \
@@ -30,11 +30,11 @@ RUN cmake -DVTK_WRAP_PYTHON=ON -DPYTHON_EXECUTABLE=/usr/local/bin/python \
     make install
 
 # Install VTK Python package
-WORKDIR /3d_Py2_Docker/VTK-8.1.2/build/Wrapping/Python
+WORKDIR /Py2_VTK812_Docker/VTK-8.1.2/build/Wrapping/Python
 RUN make && \
     make install
 
-WORKDIR /3d_Py2_Docker
+WORKDIR /Py2_VTK812_Docker
 
 # Set the necessary environment variables
 ENV LD_LIBRARY_PATH="/usr/local/lib:/python2_docker_test/VTK-8.1.2/build/lib:${LD_LIBRARY_PATH}"
